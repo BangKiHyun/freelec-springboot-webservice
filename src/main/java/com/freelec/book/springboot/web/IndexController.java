@@ -1,5 +1,6 @@
 package com.freelec.book.springboot.web;
 
+import com.freelec.book.springboot.config.auth.LoginUser;
 import com.freelec.book.springboot.config.auth.dto.SessionUser;
 import com.freelec.book.springboot.domain.user.User;
 import com.freelec.book.springboot.serviece.posts.PostsService;
@@ -20,9 +21,9 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {//@LoginUser만 사용하면 세션 정보를 가져올 수 있게 개선
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user"); //앞서 작성된 CustomOAuth2UserService에서 로그인 성공 시 세션에 SessionUser 를 저장하도록 구현
+        //SessionUser user = (SessionUser) httpSession.getAttribute("user"); //앞서 작성된 CustomOAuth2UserService에서 로그인 성공 시 세션에 SessionUser 를 저장하도록 구현
         //즉, 로그인 성공 시 httpSession.getAttribute("user")에서 값을 가져올 수 있음
 
         if (user != null) {
